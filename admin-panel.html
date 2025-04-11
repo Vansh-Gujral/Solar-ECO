@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h2 class="mb-4">Admin Panel - Logged In Users</h2>
+    <div id="userTable" class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Profile Picture</th>
+            <th>Last Login</th>
+          </tr>
+        </thead>
+        <tbody id="userList"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Firebase compat scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2yo7FueekHoNKbCAwxWqeIgax0f-K84A",
+      authDomain: "solareco-6f1f4.firebaseapp.com",
+      projectId: "solareco-6f1f4",
+      storageBucket: "solareco-6f1f4.appspot.com", // fixed typo here
+      messagingSenderId: "647429122804",
+      appId: "1:647429122804:web:0eaf66c7842cf137bbcca1",
+      measurementId: "G-8N4HVCVQQT"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (!user || user.email !== "admin@example.com") {
+        alert("Access denied.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      // Load all users from Firestore
+      db.collection("users").get().then(snapshot => {
+        const list = document.getElementById("userList");
+
+        if (snapshot.empty) {
+          list.innerHTML = '<tr><td colspan="4" class="text-center">No users found.</td></tr>';
+          return;
+        }
+
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const lastLogin = data.lastLogin;
+          const formattedLogin = lastLogin && lastLogin.toDate
+            ? lastLogin.toDate().toLocaleString()
+            : (lastLogin || "N/A");
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+            <td>${data.name || "N/A"}</td>
+            <td>${data.email || "N/A"}</td>
+            <td><img src="${data.profilePic || 'https://via.placeholder.com/50'}" width="50" height="50" class="rounded-circle"/></td>
+            <td>${formattedLogin}</td>
+          `;
+          list.appendChild(row);
+        });
+      }).catch(error => {
+        console.error("Error fetching users:", error);
+        alert("Error loading users.");
+      });
+    });
+  </script>
+</body>
+</html>

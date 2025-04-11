@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        html { transition: background-color 0.5s ease, color 0.5s ease; }
+      </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SolarEco - Harness the Power of the Sun</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-100 transition-colors duration-300">
+  <header class="bg-gray-800 text-white shadow-md">
+    <div class="container mx-auto px-4 py-3 flex flex-col md:flex-row justify-between items-center">
+      <a href="#" class="text-2xl font-bold mb-4 md:mb-0">Solar<span class="text-yellow-400">Eco</span></a>
+      <nav class="flex items-center space-x-1 md:space-x-6">
+        <a href="#" class="nav-link hover:text-yellow-400 transition">Home</a>
+        <a href="#contact" class="nav-link hover:text-yellow-400 transition">Contact</a>
+        <div class="flex items-center ml-4 space-x-2">
+          <!-- <span id="userGreeting" class="hidden bg-green-600 text-white px-4 py-2 rounded-md font-medium transition cursor-pointer hover:bg-green-700"></span> -->
+          <div id="authBtn"></div>
+          <button id="modeToggle" class="p-2 rounded-full hover:bg-gray-700 transition" style="position: relative; z-index: 60;">
+            <i id="modeIcon" class="fas fa-moon"></i>
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero-section bg-gray-900 text-white relative overflow-hidden">
+    <div class="container mx-auto px-4 py-20 md:py-32 text-center relative z-10">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6">Power Your Home With Solar Energy</h1>
+      <p class="text-xl md:text-2xl max-w-3xl mx-auto">Join the renewable energy revolution and save up to 70% on your electricity bills</p>
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900 opacity-70 z-0"></div>
+  </section>
+
+  <section class="container mx-auto px-4 py-8">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 items-center justify-center">
+      <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Solar panels on roof" class="rounded-lg shadow-md w-full h-48 object-cover dark:brightness-90" />
+      <img src="https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Solar farm" class="rounded-lg shadow-md w-full h-48 object-cover dark:brightness-90" />
+      <img src="https://images.unsplash.com/photo-1613665813446-82a78c468a1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Solar panel installation" class="rounded-lg shadow-md w-full h-48 object-cover dark:brightness-90" />
+    </div>
+  </section>
+
+  <section class="py-12 container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-8">💰 Solar Savings Calculator</h2>
+    <div class="bg-white shadow-md rounded-lg p-6 max-w-4xl mx-auto dark:bg-gray-800 dark:text-white">
+      <form id="solarCalculatorForm" class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="electricityRate" class="block mb-1">Electricity Rate (₹/kWh)</label>
+            <input type="number" id="electricityRate" step="any" required placeholder="e.g. 8.0" class="w-full px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600" />
+          </div>
+          <div>
+            <label for="sunlightHours" class="block mb-1">Avg Sunlight Hours/Day</label>
+            <input type="number" id="sunlightHours" step="any" required placeholder="e.g. 5.0" class="w-full px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600" />
+          </div>
+          <div>
+            <label for="panelCapacity" class="block mb-1">Solar Panel Capacity (kW)</label>
+            <input type="number" id="panelCapacity" step="any" required placeholder="e.g. 3.0" class="w-full px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600" />
+          </div>
+          <div>
+            <label for="dailyConsumption" class="block mb-1">Daily Electricity Consumption (kWh)</label>
+            <input type="number" id="dailyConsumption" step="any" required placeholder="e.g. 10.0" class="w-full px-4 py-2 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:focus:ring-blue-600 dark:focus:border-blue-600" />
+          </div>
+        </div>
+        <div id="outputBox" class="border-l-4 border-blue-500 bg-blue-50 dark:bg-gray-700 dark:border-blue-400 rounded-md p-4 space-y-3 shadow-md mt-4 text-sm md:text-base hidden">
+          <p><strong class="text-blue-800 dark:text-blue-300">🔋 Daily Solar Output:</strong> <span id="solarOutput" class="font-semibold text-gray-900 dark:text-white"></span> kWh</p>
+          <p><strong class="text-blue-800 dark:text-blue-300">💸 Daily Savings:</strong> ₹<span id="dailySavings" class="font-semibold text-gray-900 dark:text-white"></span></p>
+          <p><strong class="text-blue-800 dark:text-blue-300">🌞 Monthly Savings:</strong> ₹<span id="monthlySavings" class="font-semibold text-gray-900 dark:text-white"></span></p>
+          <p><strong class="text-blue-800 dark:text-blue-300">📅 Yearly Savings:</strong> ₹<span id="yearlySavings" class="font-semibold text-gray-900 dark:text-white"></span></p>
+        </div>
+        <button type="button" onclick="calculateSolarSavings()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-md transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">⚡ Estimate Savings</button>
+      </form>
+    </div>
+  </section>
+
+  <section id="features" class="py-16 container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="feature-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <i class="fas fa-solar-panel text-5xl mb-4 text-blue-600 dark:text-blue-400"></i>
+        <h3 class="text-2xl font-bold mb-3">Panel Recommendation</h3>
+        <p class="mb-4 dark:text-gray-300">Get personalized solar panel recommendations based on your needs.</p> <br>
+        <a href="https://solar-panel-rec.streamlit.app/recommendation" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition">Get Recommendations</a>
+      </div>
+      <div class="feature-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <i class="fas fa-chart-line text-5xl mb-4 text-blue-600 dark:text-blue-400"></i>
+        <h3 class="text-2xl font-bold mb-3">Efficiency Analysis</h3>
+        <p class="mb-4 dark:text-gray-300">Analyze your energy usage and potential solar savings.</p> <br>
+        <a href="https://solar-panel-rec.streamlit.app/efficiency_predictor" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition">Analyze Now</a>
+      </div>
+      <div class="feature-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+        <i class="fas fa-sun text-5xl mb-4 text-blue-600 dark:text-blue-400"></i>
+        <h3 class="text-2xl font-bold mb-3">Subsidy Info</h3>
+        <p class="mb-4 dark:text-gray-300">Get the best option on Subsidies.</p> <br> <br>
+        <a href="https://solar-panel-rec.streamlit.app/subsidy" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition">Get Subsidy info</a>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <div id="chatbotOverlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40 transition-opacity"></div>
+  <div id="chatbotContainer" class="fixed bottom-8 right-8 z-50">
+    <div id="chatbotButton" class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center cursor-pointer shadow-lg hover:bg-blue-700 transition">
+      <i class="fas fa-comment-dots text-2xl"></i>
+    </div>
+    <div id="chatbotWindow" class="hidden w-full min-w-[20rem] sm:min-w-[24rem] max-w-xl h-[40rem] sm:h-[32rem] bg-white dark:bg-gray-800 rounded-lg shadow-xl border dark:border-gray-700 flex flex-col absolute bottom-20 right-0 p-4">
+      <div class="bg-blue-600 text-white px-4 py-3 rounded-t-lg flex justify-between items-center">
+        <h3 class="font-semibold">SolarEco Efficiency Bot</h3>
+        <button id="closeChatbot" class="text-white hover:text-gray-200">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="chatMessages" class="flex-1 p-4 overflow-y-auto">
+        <div class="text-center text-gray-500 dark:text-gray-400 py-8">
+          <i class="fas fa-robot text-4xl mb-2"></i>
+          <p>Ask about solar panel efficiency!</p>
+        </div>
+      </div>
+      <div class="p-4 border-t dark:border-gray-700">
+        <div class="flex">
+          <input type="text" id="chatInput" placeholder="Ask about efficiency..." class="flex-1 px-3 py-2 border rounded-l-md dark:bg-gray-700 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-600" />
+          <button id="sendMessage" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+  <script src="script.js" defer></script>
+  <!-- Feedback Box Section -->
+  <div class="feedback-container">
+    <h3>We'd love your feedback!</h3>
+    <form action="https://formsubmit.co/vanshgujral175@gmail.com" method="POST">
+      <!-- Optional hidden fields -->
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="box">
+      
+      <textarea name="message" placeholder="Write your feedback here..." required></textarea><br>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  <footer id="contact" class="bg-gray-800 text-white mt-2">
+    <div class="container mx-auto px-4 text-center py-4">
+      <p class="mb-2">© 2023 SolarEco. All rights reserved.</p>
+      <p>Contact us: vanshgujral175@gmail.com | +91 8077439345</p>
+    </div>
+  </footer>
+  
+</body>
+</html>
